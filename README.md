@@ -27,10 +27,11 @@ Deployment:
 - ansible
 - Boto
 - AWSCLI 
+
 Ansible:
 --------
 - Ansible is an open-source automation engine that automates software provisioning, configuration management, and application deployment
-for more details about ansible, ansible playbook and roles please visit http://docs.ansible.com/
+for more details about ansible, ansible playbook and ansible roles please visit http://docs.ansible.com/
 
 - Playbook:  contain all the ansible playbooks
 - vpc.yml: vpc playbook  
