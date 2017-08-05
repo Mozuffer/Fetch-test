@@ -23,29 +23,28 @@ Note:
 
 Deployment:
 ----------
-Make sure the following packages are installed in your box 
-ansible
-Boto
-AWSCLI 
+- Make sure the following packages are installed in your box 
+- ansible
+- Boto
+- AWSCLI 
 Ansible:
 --------
-Ansible is an open-source automation engine that automates software provisioning, configuration management, and application deployment
+- Ansible is an open-source automation engine that automates software provisioning, configuration management, and application deployment
 for more details about ansible, ansible playbook and roles please visit http://docs.ansible.com/
 
-Playbook:  contain all the ansible playbooks
-  vpc.yml: vpc playbook  
-roles: contains ansible roles 
-docker: contains simple djgango dockerise app
-env: contain inventory file
-ansible.cfg: ansible main configuration file 
+- Playbook:  contain all the ansible playbooks
+- vpc.yml: vpc playbook  
+- roles: contains ansible roles 
+- docker: contains simple djgango dockerise app
+- env: contain inventory file
+- ansible.cfg: ansible main configuration file 
 
 Deployment instructions:
-Create django Docker Image:
-Enter this directory "docker/django_app" and run make the instruction is below
-cd  docker/django_app
-make 
-The above instruction build django docker image "mozuffer/djangoapp" and pusched to the docker registry
-
-Run the following command to Provision the infrastructure and deploy django-app to AWS  
-
-ansible-playbook -i env/inventory --private-key MozufferKey.pem  playbooks/playbooks_vpc.yml
+----------------------------
+- Create django Docker Image:
+  - Enter this directory "docker/django_app" and run make the instruction is below
+  - cd  docker/django_app
+  - make 
+- The above instruction build django docker image "mozuffer/djangoapp" and pusched to the docker registry
+- Run the following command to Provision the infrastructure and deploy django-app to AWS  
+- ansible-playbook -i env/inventory --private-key MozufferKey.pem  playbooks/playbooks_vpc.yml
