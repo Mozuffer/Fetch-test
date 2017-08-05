@@ -21,7 +21,12 @@ Note:
 
    I prefer the Makefile to automate the build and then let the CI/CD  execute it.  Makefile allow us to combine all the build commands at one file which is good from automation point of view. also in case of the CI/CD is not available the build can be managed from any Machine
 
-
+Deployment:
+----------
+Make sure the following packages are installed in your box 
+ansible
+Boto
+AWSCLI 
 Ansible:
 --------
 Ansible is an open-source automation engine that automates software provisioning, configuration management, and application deployment
@@ -41,7 +46,6 @@ cd  docker/django_app
 make 
 The above instruction build django docker image "mozuffer/djangoapp" and pusched to the docker registry
 
-Provision the infrastructure and deploy django-app to AWS 
+Run the following command to Provision the infrastructure and deploy django-app to AWS  
 
-ansible-playbook -i inventory -u ec2-user -k -K  playbook/vpc.yml
-
+ansible-playbook -i env/inventory --private-key MozufferKey.pem  playbooks/playbooks_vpc.yml
