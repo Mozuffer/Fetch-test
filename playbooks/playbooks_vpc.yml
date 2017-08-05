@@ -32,7 +32,7 @@
         name: fetchr-elb
         state: present
         region: us-east-1 
-        security_group_ids: "{{ Fetchr_Security_Group_id }}" 
+        security_group_names: Fetchr_Security_Group
         subnets:
           - "{{ fetchr_public_subnet_id }}" 
         health_check:

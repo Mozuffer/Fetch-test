@@ -73,10 +73,6 @@
       - proto: all
         cidr_ip: 0.0.0.0/0 
 
- name: Set Security group in variable
-  set_fact:
-    Fetchr_Security_Group_id: Fetchr_Security_Group
-
 - name: create ec2 instance for django APP 
   ec2:
     region: "{{ aws_region }}"
