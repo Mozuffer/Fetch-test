@@ -1,0 +1,61 @@
+---
+- hosts: local
+  roles:
+    - vpc
+
+- name: Deploy Django webserver
+  hosts: webserver
+  become: yes
+  gather_facts: True
+  roles:
+    - docker_host
+  tasks:
+    - name: Copy docker compo
+      copy:
+        src: django-compose.yml
+        dest: "/etc/docker/docker-compose.d/django.yml"
+        mode: 0644
+
+    - name: 'Update Docker images from registry'
+      shell: DOCKERHOST=$(ip route | awk '/docker0/ { print $NF }') /usr/local/bin/docker-compose -f /etc/docker/docker-compose.d/django.yml pull
+
+    - name: 'Run Docker Compose'
+      shell: DOCKERHOST=$(ip route | awk '/docker0/ { print $NF }') /usr/local/bin/docker-compose -f /etc/docker/docker-compose.d/django.yml up -d
+
+- name: Spin up the load balancer and add the servers to it
+  hosts: local
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Create a load balancer
+      ec2_elb_lb:
+        name: fetchr-elb
+        state: present
+        region: us-east-1 
+        security_group_ids: "{{ Fetchr_Security_Group_id }}" 
+        subnets:
+          - "{{ fetchr_public_subnet_id }}" 
+        health_check:
+          ping_protocol: http
+          ping_port: 80
+          ping_path: '/'
+          response_timeout: 3
+          interval: 30
+          unhealthy_threshold: 2
+          healthy_threshold: 10
+        idle_timeout: 5
+        listeners:
+          - protocol: http
+            load_balancer_port: 80
+            instance_port: 80
+      register: fetchr-elb
+    
+    - name: add  webservers to the load balancer
+      local_action: ec2_elb
+      args:
+        instance_id: "{{ item.id }}"
+        ec2_elbs: fetchr-elb
+        state: present
+        region: us-east-1
+      with_items: "{{ fetchr_django_ec2_instances.instances}}"
+...

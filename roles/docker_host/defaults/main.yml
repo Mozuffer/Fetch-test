@@ -1,0 +1,9 @@
+---
+docker_version: 1.11.2
+docker_compose_ver: 1.7.1
+docker_tls: 'false'
+docker_storage: overlay
+docker_selinux: 'false'
+docker_dir: /mnt/data_vol/docker
+additional_docker_options: ""
+...

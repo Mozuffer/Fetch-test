@@ -1,0 +1,65 @@
+---
+- name: 'Check if RHEL Docker package is installed'
+  shell: rpm -qi docker
+  ignore_errors: true
+  register: rhel_docker_pkg
+
+- name: 'Stop RHEL Docker before removal'
+  service: 
+    name: docker 
+    state: stopped
+  when: rhel_docker_pkg.rc == 0
+
+- name: 'Remove RHEL version of Docker'
+  yum: 
+    name: docker 
+    state: absent
+  when: rhel_docker_pkg.rc == 0
+
+- name: 'Remove RHEL version of docker-selinux'
+  yum: 
+    name: docker-selinux 
+    state: absent
+  when: rhel_docker_pkg.rc == 0
+
+- name: 'Add docker.io repo'
+  copy: 
+    src: docker.io.repo 
+    dest: /etc/yum.repos.d/docker.repo
+
+- name: 'Install Docker'
+  yum: 
+    name: "docker-engine-{{ docker_version }}"
+    state: present
+
+- name: 'Start Docker'
+  service: 
+    name: docker 
+    state: started 
+    enabled: yes
+
+- name: 'Check if Docker chain in iptables'
+  command: iptables -L DOCKER
+  ignore_errors: true
+  register: docker_iptables
+
+- name: 'Restart Docker'
+  service:
+    name: docker
+    state: restarted
+  when: docker_iptables|failed
+
+- name: 'Install docker-compose'
+  get_url:
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_ver }}/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 0755
+    validate_certs: no
+    force: yes
+
+- name: 'Create a docker-compose.d directory'
+  file:
+    dest: /etc/docker/docker-compose.d
+    state: directory
+    mode: 0755
+
