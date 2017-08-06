@@ -2,7 +2,7 @@ Verison: 1.0
 
 Collected by: mozufferhago@gmail.com
 
-Feel free to reach out to in case of more clarification
+Feel free to reach out to me in case of more clarification
 
 Django web Application Deployment strategy: 
 -------------------------------------------
