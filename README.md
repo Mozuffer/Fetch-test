@@ -19,7 +19,7 @@ Django web Application Deployment strategy:
 
 Note: 
 
-   I prefer the Makefile to automate the build and then let the CI/CD  execute it.  Makefile allow us to combine all the build commands at one file which is good from automation point of view. also in case of the CI/CD is not available the build can be managed from any Machine
+   I prefer to use  Makefile to automate the build and then let the CI/CD  execute it.  Makefile allow us to combine all the build commands at one file which is good from automation point of view. also in case of the CI/CD is not available the build can be managed from any Machine
 
 Deployment:
 ----------
