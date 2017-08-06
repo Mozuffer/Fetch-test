@@ -2,7 +2,7 @@ Verison: 1.0
 
 Collected by: mozufferhago@gmail.com
 
-Feel free to reach me out in case of more clarification
+Feel free to reach out to in case of more clarification
 
 Django web Application Deployment strategy: 
 -------------------------------------------
@@ -46,6 +46,6 @@ Deployment instructions:
   - Enter this directory "docker/django_app" and run make the instruction is below
   - cd  docker/django_app
   - make 
-- The above instruction build django docker image "mozuffer/djangoapp" and pusched it to the docker registry
+- The above instruction build django docker image "mozuffer/djangoapp" and pushed it to the docker registry
 - Run the following command to Provision the infrastructure and deploy django-app to AWS  
 - ansible-playbook -i env/inventory --private-key MozufferKey.pem  playbooks/playbooks_vpc.yml
